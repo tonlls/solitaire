@@ -1,6 +1,6 @@
 #include <stdio.h>  
 #include <windows.h>  
-#include<conio.c>
+#include "conio.c"
 
 typedef struct{
 	int nombre;

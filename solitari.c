@@ -1,4 +1,4 @@
-#include"mouseBETA.h"
+#include"mouse.h"
 #include"cartes.h"
 #include<time.h>
 #include<stdio.h>
