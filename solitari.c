@@ -3,7 +3,6 @@
 #include<time.h>
 #include<stdio.h>
 
-
 typedef struct{
 	Tcarta cartes[31];
 }Tbaralla;
@@ -47,6 +46,7 @@ void dibuixarTauler();
 void inicialitzarTaules();
 void maximitzar_finestra();
 ////////////////////////////////////////////////////////////////////
+
 ///////CONSTANTS LLOCS////////
 #define PILLAR 100
 #define PILAS 200
@@ -77,8 +77,6 @@ void maximitzar_finestra();
 
 
 void maximitzar_finestra(void){
-	//sleep(1);
-	//getch();
     keybd_event(VK_MENU,0x38,0,0);
     keybd_event(VK_SPACE,0x39,0,0);
     keybd_event(VK_MENU,0x38,KEYEVENTF_KEYUP,0);
@@ -89,18 +87,15 @@ void maximitzar_finestra(void){
 
 void inicialitzarTaules(){
 	int i_pal,i=1,i_nombre;
-	//while(i<MAX_CARTES){
 		for(i_pal=0;i_pal!=4;i_pal++){
 			i_nombre=1;
 			while(i_nombre!=14){
 				cartes[i].nombre=i_nombre;
 				cartes[i].pal=i_pal;
 				cartes[i].destapada=0;
-				//cartes[i].color=0;
 				cartes[i].color=i_pal%2;
 				cartes[i].barrejada=0;
 				cartes[i].seleccionada=0;
-				//printf("%d-%d,%d\n",i,cartes[i].nombre,cartes[i].pal);getch();
 				i_nombre++;
 				i++;
 			}
@@ -119,7 +114,6 @@ void inicialitzarTaules(){
 		for(i=0;i!=3;i++){
 			cartes_pillades[i].nombre=BUIT;
 		}
- //}
 }
 void dibuixarTauler(){
 	textcolor(8);
