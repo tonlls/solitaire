@@ -87,33 +87,33 @@ void maximitzar_finestra(void){
 
 void inicialitzarTaules(){
 	int i_pal,i=1,i_nombre;
-		for(i_pal=0;i_pal!=4;i_pal++){
-			i_nombre=1;
-			while(i_nombre!=14){
-				cartes[i].nombre=i_nombre;
-				cartes[i].pal=i_pal;
-				cartes[i].destapada=0;
-				cartes[i].color=i_pal%2;
-				cartes[i].barrejada=0;
-				cartes[i].seleccionada=0;
-				i_nombre++;
-				i++;
-			}
+	for(i_pal=0;i_pal!=4;i_pal++){
+		i_nombre=1;
+		while(i_nombre!=14){
+			cartes[i].nombre=i_nombre;
+			cartes[i].pal=i_pal;
+			cartes[i].destapada=0;
+			cartes[i].color=i_pal%2;
+			cartes[i].barrejada=0;
+			cartes[i].seleccionada=0;
+			i_nombre++;
+			i++;
 		}
-		//inicialitzar baralla
-		for(i=0;i!=31;i++){
-			baralla.cartes[i].nombre=BUIT;
+	}
+	//inicialitzar baralla
+	for(i=0;i!=31;i++){
+		baralla.cartes[i].nombre=BUIT;
+	}
+	//inicialitzar pilas de As
+	for(i=0;i!=4;i++){
+		for(i_nombre=0;i_nombre!=31;i_nombre++){
+			pilaA[i].cartes[i_nombre].nombre=BUIT;
 		}
-		//inicialitzar pilas de As
-		for(i=0;i!=4;i++){
-			for(i_nombre=0;i_nombre!=31;i_nombre++){
-				pilaA[i].cartes[i_nombre].nombre=BUIT;
-			}
-			qtA[i]=0;
-		}
-		for(i=0;i!=3;i++){
-			cartes_pillades[i].nombre=BUIT;
-		}
+		qtA[i]=0;
+	}
+	for(i=0;i!=3;i++){
+		cartes_pillades[i].nombre=BUIT;
+	}
 }
 void dibuixarTauler(){
 	textcolor(8);
@@ -162,7 +162,6 @@ void barrejarCartes(){
 	for(i=0;i!=7;i++){
 		for(i2=0;i2!=i+1;i2++){
 			pilas[i].cartes[i2]=cartes_barrejades[u];
-			//iPila[i]++;
 			u++;
 		}
 	}
@@ -177,7 +176,6 @@ void barrejarCartes(){
 void pillarCartes(/*Tbaralla *baralla,Tcarta cartes_pillades[3],int *i_pillades*/){
 	int i,x=62,y=2,e=-1;
 	pillarAct=0;
-	//cResta=0;
 	if(seleccionades>0&&selec[0].lloc==PILLAR){
 		selec[0].lloc=BUIT;
 		seleccionades=0;
@@ -185,11 +183,9 @@ void pillarCartes(/*Tbaralla *baralla,Tcarta cartes_pillades[3],int *i_pillades*
 	}
 	if(i_pillades<qt_pillades){
 		iPillar=-1;
-		//e=-1;
 		for(i=0;i!=3;i++){
 			cartes_pillades[i].nombre=BUIT;
 		}
-		//cResta=0;
 		for(i=0;i!=3&&i_pillades<qt_pillades;i_pillades++){
 			if(baralla.cartes[i_pillades].nombre!=BUIT/*&&i_pillades!=*/){
 				cartes_pillades[i]=baralla.cartes[i_pillades];
@@ -197,21 +193,8 @@ void pillarCartes(/*Tbaralla *baralla,Tcarta cartes_pillades[3],int *i_pillades*
 				i++;
 				iPillar++;
 				pillarEnrrere++;
-				//pillarAct++;
-				//cResta++;
 			}
 		}
-		//u++;
-		/*for(i=2;i!=-1;i--){
-			if(cartes_pillades[i].nombre==BUIT){
-				cartes_pillades[i]=cartes_pillades[i-1];
-				cartes_pillades[i-1].nombre=BUIT;
-			}
-		}*/
-		//if(i_pillades<=)
-		
-			
-		//printf("X");getch();
 		if(cartes_pillades[2].nombre==BUIT){
 			pasarPillades();
 			if(cartes_pillades[2].nombre==BUIT){
@@ -219,12 +202,10 @@ void pillarCartes(/*Tbaralla *baralla,Tcarta cartes_pillades[3],int *i_pillades*
 			}
 		}
 		escriurePillades();
-		//escriureTauler();
 	}
 	else{
 		resetejarPillades();
 	}
-	//printf("%d",baralla.cartes[i_pillades-1].nombre);
 }
 
 void pasarPillades(/*Tcarta cartes_pillades[],Tbaralla baralla*/){
@@ -240,14 +221,12 @@ void pasarPillades(/*Tcarta cartes_pillades[],Tbaralla baralla*/){
 		while(i!=3&&cartes_pillades[i].nombre==BUIT){
 			i++;
 		}
-		//printf("(%d)",cartes_pillades[i].nombre);getch();
 		t=buscarCartaXPillar(cartes_pillades[i])-1;
 		while(t>=0&&baralla.cartes[t].nombre==BUIT){
 			t--;
 		}
 		cartes_pillades[i-1]=baralla.cartes[t];
 	}
-	//escriurePillades();
 }
 
 void iniciarTauler(/*Tbaralla pilas[]*/){
@@ -268,22 +247,18 @@ void iniciarTauler(/*Tbaralla pilas[]*/){
 
 void escriurePillades(){
 	int i,x=56,y=2;
-	//cResta=1;
 	esborrarEspai(56,2,70,9);
 	for(i=0;i!=3;i++){
-		//printf("%d",cartes_pillades[i].nombre);getch();
 		if(cartes_pillades[i].nombre!=BUIT&&cartes_pillades[i].nombre!=0){
 			cartes_pillades[i].destapada=1;
 			dibuixarCarta(cartes_pillades[i],x,y);
 			x=x+3;
-			//cResta++;
 		}
 	}
 }
 
 void escriureAsos(){
 	int x=2,y=2,i;
-	//esborrarEspai(2,2,42,2);
 	for(i=0;i!=4;i++){
 		esborrarEspai(x,2,x+8,9);
 		if(pilaA[i].cartes[qtA[i]].nombre!=BUIT){
@@ -307,15 +282,7 @@ void escriurePiles(){
 	esborrarEspai(2,14,72,100);
 	for(i=0;i!=7;i++){
 		escriurePila(i);
-		/*x=x+10;
-		y=14;
-		for(i2=0;i2!=iPila[i];i2++){
-			dibuixarCarta(pilas[i].cartes[i2],x,y);
-			y=y+2;
-		}*/
-		
 	}
-	//printf("%d-%d",x,y);getch();
 }
 
 void escriureTauler(){
@@ -324,33 +291,11 @@ void escriureTauler(){
 	dibuixarTauler();
 	//escriure les piles
 	escriurePiles();
-	/*for(i=0;i!=7;i++){
-		for(i2=0;i2!=iPila[i];i2++){
-			dibuixarCarta(pilas[i].cartes[i2],x,y);
-			y=y+2;
-		}
-		y=14;
-		x=x+10;
-	}*/
 	//escriure cartes pillades
 	escriurePillades();
-	/*x=62;y=2;
-	for(i=0;i!=3;i++){
-		if(cartes_pillades[i].nombre!=BUIT){
-			dibuixarCarta(cartes_pillades[i],x,y);
-			x=x-3;
-		}
-	}*/
 	//escriure pilas de A
-	getch();
+	//getch();
 	escriureAsos();
-	/*x=2;y=2;
-	for(i=0;i!=4;i++){
-		if(pilaA[i].cartes[qtA[i]].nombre!=BUIT){
-			dibuixarCarta(pilaA[i].cartes[qtA[i]],x,y);
-		}
-		x=x+10;
-	}*/
 }
 
 
@@ -368,7 +313,6 @@ int fiPartida(/*Tbaralla pilaA[4]*/){
 }
 
 void resetejarPillades(/*Tcarta cartes_pillades[],int *i_pillades,int *cResta*/){
-	//cResta=0;
 	int i=0;
 	for(i=0;i!=3;i++){
 		cartes_pillades[i].nombre=BUIT;
@@ -380,13 +324,10 @@ void resetejarPillades(/*Tcarta cartes_pillades[],int *i_pillades,int *cResta*/)
 
 void seleccionarCartaPila(int pila,int x,int y){
 	int i=0,u=0,i2=0,surt=0,e=0;
-	//printf("(%d)",iPila[pila]);getch();
 	if(iPila[pila]==0&&y>12&&y<22&&seleccionades==1){
-		//printf("ultima carta");getch();
 		selec[1].lloc=PILAS;
 		selec[1].i=pila;
 		seleccionades++;
-		//escriureTauler();
 	}
 	else{
 		for(i=0;i!=iPila[pila]&&surt==0;i++){
@@ -402,22 +343,15 @@ void seleccionarCartaPila(int pila,int x,int y){
 			else{
 				e=0;
 			}
-			//printf("%d",iPila[pila]);getch();
 			if(y>=i*2+14&&y<=i*2+14+u){
-				//printf("2");getch();
 				if(pilas[pila].cartes[i].destapada==1){
 					if(pilas[pila].cartes[i].seleccionada==1){
 						pilas[pila].cartes[i].seleccionada=0;
-						//c_seleccionades[seleccionades-1].nombre=BUIT;
 						seleccionades--;
-						/*for(e=i;e!=iPila[pila];e++){
-							pilas[pila].cartes[e].seleccionada=0;
-						}*/
 						desseleccionarPila(pila);
 					}
 					else{
 						pilas[pila].cartes[i].seleccionada=1;
-						//c_seleccionades[seleccionades-1]=pilas[pila].cartes[i];
 						seleccionades++;
 						for(e=i;e!=iPila[pila];e++){
 							pilas[pila].cartes[e].seleccionada=1;
@@ -428,14 +362,12 @@ void seleccionarCartaPila(int pila,int x,int y){
 						selec[0].lloc=PILAS;
 						selec[0].i=pila;
 						selec[0].u=i;
-						//escriureTauler();
 					}
 					else if(seleccionades==2){
 						selec[1].lloc=PILAS;
 						selec[1].i=pila;
 					}
 					escriurePila(pila);
-					//escriureTauler();
 				}
 			}
 		}
@@ -443,24 +375,18 @@ void seleccionarCartaPila(int pila,int x,int y){
 }
 
 int click(int x,int y){
-	/*printf("pos1");getch();
-	escriurePillades();
-	printf("pos2");getch();*/
-	int i=-1,u=0,i2=0,surt=0,e=0,pila=0;  ///erroor al pillar cartes
+	int i=-1,u=0,i2=0,surt=0,e=0,pila=0;
 	if(x>=70&&y>=10&&x<=72&&y<=12){
 		reiniciar=1;
 	}
-	//mirem si clica per pillar cartes
 	else if(x>=70&&x<=78&&y>=1&&y<=10){
 		if(i_pillades==24){
 			resetejarPillades();
 			i_pillades=0;
-			//iPillar=0;
 		}
 		else{
 			pillarCartes();
 		}
-		//pillarCartes();
 	}
 	//mirem si clica una pila
 	else if(x>=2&&x<=69&&y>=13){
@@ -503,7 +429,6 @@ int click(int x,int y){
 	//mirem si clica a alguna pila de asos
 	else if(x>=2&&y>=2&&x<=41&&y<=10){
 		if(x>=2&&x<=11){
-			//printf("0");getch()
 			seleccionarCartaAsos(0,x,y);
 		}
 		else if(x>=12&&x<=21){
@@ -530,18 +455,11 @@ void moureCartaPillarAsos(int pila){
 			
 			baralla.cartes[u].nombre=BUIT;
 			cartes_pillades[pillarAct].nombre=BUIT;
-			
-			//pilaA[pila].cartes[qtA[pila]].destapada=1;
 
-			//printf("%d",pilaA[pila].cartes[qtA[pila]+1].nombre);getch();
-			//printf("%d",cResta);getch();
-			//cResta++;
 			iPillar--;
 			seleccionades=0;
 			selec[0].lloc=BUIT;
 			selec[1].lloc=BUIT;
-
-			//escriureTauler();
 		}
 		else{
 			cartes_pillades[pillarAct].seleccionada=0;
@@ -549,7 +467,6 @@ void moureCartaPillarAsos(int pila){
 		}
 	}
 	else if(cartes_pillades[pillarAct].nombre-1==pilaA[pila].cartes[qtA[pila]].nombre&&cartes_pillades[pillarAct].pal==pilaA[pila].cartes[qtA[pila]].pal){
-		//printf("no A");getch();
 		cartes_pillades[pillarAct].seleccionada=0;
 		qtA[pila]++;
 		pilaA[pila].cartes[qtA[pila]].seleccionada=0;
@@ -558,13 +475,11 @@ void moureCartaPillarAsos(int pila){
 		
 		baralla.cartes[u].nombre=BUIT;
 		cartes_pillades[pillarAct].nombre=BUIT;
-		//cResta++;
 		iPillar--;
 		seleccionades=0;
 		selec[0].lloc=BUIT;
 		selec[1].lloc=BUIT;
 		
-		//escriureTauler();
 	}
 	desseleccionarPilaA(pila);
 	desseleccionarPillades();
@@ -575,7 +490,6 @@ void moureCartaPillarAsos(int pila){
 }
 
 void seleccionarCartaAsos(int pila,int x,int y){
-	//printf("A");getch();
 	selec[seleccionades].u=pila;
 	if(qtA[pila]==0){
 		if(seleccionades==1){
@@ -595,7 +509,6 @@ void seleccionarCartaAsos(int pila,int x,int y){
 		}
 		if(seleccionades==1){
 			selec[0].lloc=ASOS;
-			//escriureTauler();
 		}
 		else {
 			selec[1].lloc=ASOS;
@@ -610,19 +523,9 @@ void seleccionarCartaPillar(int x,int y){
 	while(cartes_pillades[pillarAct].nombre==BUIT){
 		pillarAct--;
 	}
-	/*printf("fuck");getch();
-	escriurePillades();
-	printf("fuck 22222");getch();*/
-	
-	
-	/*while(pillarAct!=-1&&cartes_pillades[pillarAct].nombre==BUIT){
-		pillarAct--;
-	}*/
 	if(seleccionades==0){
 		if(cartes_pillades[pillarAct].seleccionada==0){
-			//printf("%d",cartes_pillades[iPillar].nombre);getch();
 			cartes_pillades[pillarAct].seleccionada=1;
-			//c_seleccionades[seleccionades-1]=cartes_pillades[0];
 			seleccionades++;
 		}
 		if(seleccionades==1){
@@ -632,28 +535,19 @@ void seleccionarCartaPillar(int x,int y){
 	else{
 		if(cartes_pillades[pillarAct].seleccionada==1){
 			cartes_pillades[pillarAct].seleccionada=0;
-			//c_seleccionades[seleccionades-1].nombre=BUIT;
 			seleccionades--;
 			desseleccionarPillades();
 		}
 	}
-	//printf("X");getch();
-		escriurePillades();
+	escriurePillades();
 }
 int buscarCartaXPillar(Tcarta carta){
 	int i=0;
 	for(i=0;i!=25;i++){
-		//printf("%d-(%d)",baralla.cartes[i].nombre,carta.nombre);getch();
 		if(baralla.cartes[i].pal==carta.pal&&baralla.cartes[i].nombre==carta.nombre){
-			//printf("TROBAT");getch();
 			return i;
 		}
 	}
-	//misatgeError();
-	/*
-	if(i!=qt_pillades){
-		return i;
-	}*/
 }
 
 void misatgeError(){
@@ -663,23 +557,16 @@ void misatgeError(){
 
 void moureCartaPillarPila(int i_pila){
 	int u;
-	//printf("%d",iPila[i_pila]);getch();
 	if(iPila[i_pila]==0&&cartes_pillades[pillarAct].nombre==13){
-		//printf("baixarOK");getch();
-		//pilas[i_pila].cartes[iPila[i_pila]].seleccionada=0;
 		cartes_pillades[pillarAct].seleccionada=0;
 		pilas[i_pila].cartes[iPila[i_pila]]=cartes_pillades[pillarAct];
 		u=buscarCartaXPillar(cartes_pillades[pillarAct]);
-		///printf("33");getch();
 		pilas[i_pila].cartes[iPila[i_pila]].seleccionada=0;
 		baralla.cartes[u].nombre=BUIT;
 		cartes_pillades[pillarAct].nombre=BUIT;
 		iPila[i_pila]++;
-		//pilas[i_pila].cartes[iPila[i_pila]-1].destapada=1;
-		//escriureTauler();
 	}
  	else if(cartes_pillades[pillarAct].nombre+1==pilas[i_pila].cartes[iPila[i_pila]-1].nombre&&cartes_pillades[pillarAct].color!=pilas[i_pila].cartes[iPila[i_pila]-1].color){
-		//printf("RO");getch();
 		cartes_pillades[pillarAct].seleccionada=0;
 		pilas[i_pila].cartes[iPila[i_pila]]=cartes_pillades[pillarAct];
 		pilas[i_pila].cartes[iPila[i_pila]].seleccionada=0;
@@ -689,16 +576,11 @@ void moureCartaPillarPila(int i_pila){
 
 		baralla.cartes[u].nombre=BUIT;
 		cartes_pillades[pillarAct].nombre=BUIT;
-		//compactarBaralla();
-		//qt_pillades--;
-		//cResta++;
 		iPillar--;
 		iPila[i_pila]++;
 		seleccionades=0;
 		selec[0].lloc=BUIT;
 		selec[1].lloc=BUIT;
-
-		//escriureTauler();
  	}
 	else{
 		pilas[i_pila].cartes[iPila[i_pila]-1].seleccionada=0;
@@ -706,7 +588,6 @@ void moureCartaPillarPila(int i_pila){
 		seleccionades=0;
 		selec[0].lloc=BUIT;
 		selec[1].lloc=BUIT;
-		//escriureTauler();
 	}
 	desseleccionarPila(i_pila);
 	desseleccionarPillades();
@@ -717,20 +598,15 @@ void moureCartaPillarPila(int i_pila){
 	
 }
 
-//////////--error al printar les pillades
-
 void moureCartaPilaPila(int pila1,int i1,int pila2){
-	//printf("PilaPila");getch();
 	int i=0,u=0;
 	if(iPila[pila2]==0&&pilas[pila1].cartes[i1].nombre==13){
-		//pilas[pila2].cartes[iPila[pila2]+1].seleccionada=0;
 		for(i=i1;i!=iPila[pila1];i++){
 			pilas[pila1].cartes[i].seleccionada=0;
 			pilas[pila2].cartes[iPila[pila2]]=pilas[pila1].cartes[i];
 			pilas[pila1].cartes[i].nombre=BUIT;
 			iPila[pila2]++;
 			u++;
-			//iPila[pila1]--;
 		}
 		iPila[pila1]=iPila[pila1]-u;
 		pilas[pila1].cartes[iPila[pila1]-1].destapada=1;
@@ -746,7 +622,6 @@ void moureCartaPilaPila(int pila1,int i1,int pila2){
 			pilas[pila1].cartes[i].nombre=BUIT;
 			iPila[pila2]++;
 			u++;
-			//iPila[pila1]--;
 		}
 			iPila[pila1]=iPila[pila1]-u;
 			pilas[pila1].cartes[iPila[pila1]-1].destapada=1;
@@ -761,7 +636,6 @@ void moureCartaPilaPila(int pila1,int i1,int pila2){
 	seleccionades=0;
 	selec[0].lloc=BUIT;
 	selec[1].lloc=BUIT;
-	//escriureTauler();
 	desseleccionarPila(pila1);
 	desseleccionarPila(pila2);
 	escriurePila(pila1);
@@ -770,9 +644,7 @@ void moureCartaPilaPila(int pila1,int i1,int pila2){
 
 void moureCartaPilaAsos(i_pila,pila,pila_a){
 	int i;
-	//printf("%d (%d)",i_pila,iPila[pila]);getch();
 	if((pilas[pila].cartes[i_pila].nombre-1==pilaA[pila_a].cartes[qtA[pila_a]].nombre&&pilas[pila].cartes[i_pila].pal==pilaA[pila_a].cartes[qtA[pila_a]].pal||pilas[pila].cartes[i_pila].nombre==1)&&i_pila==iPila[pila]-1){
-		//printf("GET");getch();
 		pilas[pila].cartes[i_pila].seleccionada=0;
 		pilaA[pila_a].cartes[qtA[pila_a]+1]=pilas[pila].cartes[i_pila];
 		pilas[pila].cartes[i_pila].nombre==BUIT;
@@ -795,26 +667,20 @@ void moureCartaPilaAsos(i_pila,pila,pila_a){
 	desseleccionarPilaA(pila_a);
 	escriurePila(pila);
 	escriureAsos();
-	//escriureTauler();
 }
 
 void moureCartaAsosPila(int pila_a,int pila){       //error al baixar cartes de asos
-			//printf("(%d)(%d)",pilaA[pila_a].cartes[qtA[pila_a]].nombre,pilas[pila].cartes[iPila[pila]-1].nombre);getch();
 	if((pilas[pila].cartes[iPila[pila]-1].nombre==pilaA[pila_a].cartes[qtA[pila_a]].nombre+1&&pilas[pila].cartes[iPila[pila]-1].color!=pilaA[pila_a].cartes[qtA[pila_a]].color)||(iPila[pila]==0&&pilaA[pila_a].cartes[qtA[pila_a]].nombre==13)){
-		//printf("pas2");getch();
 		pilas[pila].cartes[iPila[pila]-1].seleccionada=0;
 		pilas[pila].cartes[iPila[pila]].seleccionada=0;
 		pilas[pila].cartes[iPila[pila]]=pilaA[pila_a].cartes[qtA[pila_a]];
 		pilaA[pila_a].cartes[qtA[pila_a]].nombre=BUIT;
-		//escriureAsos();
 		qtA[pila_a]--;
 		iPila[pila]++;
 	}
 	pilas[pila].cartes[iPila[pila]].seleccionada=0;
-	//pilas[pila].cartes[iPila[pila]-2].seleccionada=0;
 	selec[0].lloc=BUIT;
 	selec[1].lloc=BUIT;
-	//escriureTauler();
 	desseleccionarPila(pila);
 	desseleccionarPilaA(pila_a);
 	escriurePila(pila);
@@ -822,7 +688,6 @@ void moureCartaAsosPila(int pila_a,int pila){       //error al baixar cartes de 
 }
 
 void moure(){
-		//printf("VV");getch();
 	if(selec[0].lloc==PILAS&&selec[1].lloc==PILAS){
 		moureCartaPilaPila(selec[0].i,selec[0].u,selec[1].i);
 	}
@@ -850,21 +715,18 @@ void desseleccionarPila(int pila){
 	for(i=0;i!=MAX_CARTES/*iPila[pila]+1*/;i++){
 		pilas[pila].cartes[i].seleccionada=0;
 	}
-	//escriurePila(pila);
 }
 void desseleccionarPilaA(int pila){
 	int i;
 	for(i=0;i!=qtA[pila]+1;i++){
 		pilaA[pila].cartes[i].seleccionada=0;
 	}
-	//escriureAsos();
 }
 
 void desseleccionarPillades(){
 	cartes_pillades[0].seleccionada=0;
 	cartes_pillades[1].seleccionada=0;
 	cartes_pillades[2].seleccionada=0;
-	//escriurePillades();
 }
 
 void guanyat(){
@@ -873,12 +735,10 @@ void guanyat(){
 	textbackground(15);
 	for(i=0;i!=6;i++){
 		system("cls");
-		//printf("%d(%d)",i,i%2);
 		dimoni(50,20,i);
 		if((i%2)!=0)hgotoxy(33,32);else hgotoxy(37,32);
 		printf("Nanu ets un CRACK");
 		sleep(1);
-		//getch();
 	}
 	for(i=33;i!=0;i--){
 		hgotoxy(i,32);
@@ -894,7 +754,6 @@ void guanyat(){
 		printf("                 ");
 		hgotoxy(i,32);
 		textcolor((rand()%14)+1);
-		printf("Nanu ets un CRACK");
 		sleep(1);
 		i++;i++;
 	}
@@ -917,14 +776,10 @@ void main(){
 	_setcursortype(_NOCURSOR);
 	
 	maximitzar_finestra();
-//	guanyat();getch();
-	//getch();
-	
 	do{
 		qtA[0]=0;qtA[1]=0;qtA[2]=0;qtA[3]=0;
 		iPila[0]=0;iPila[1]=0;iPila[2]=0;iPila[3]=0;iPila[4]=0;iPila[5]=0;iPila[6]=0;
 		i_pillades=0;iPillar=-1;qt_pillades=24;seleccionades=0;pillarAct=2;pillarEnrrere=0;reiniciar=0;
-		//cResta=1;
 		
 		reiniciar=0;
 		srand(time(NULL));
@@ -942,7 +797,11 @@ void main(){
 			seleccionades=0;
 			selec[0].lloc=BUIT;
 			selec[1].lloc=BUIT;
-			//desseleccionarPillades();//desseleccionar les cartes per pillar
+			
+			/////??
+			desseleccionarPillades();//desseleccionar les cartes per pillar
+			////??
+			
 			desseleccionarBaralla();//desseleccionar cartes baralla
 			for(i=0;i!=7;i++){//desseleccionar cartes pila
 				desseleccionarPila(i);
@@ -950,12 +809,9 @@ void main(){
 			for(i=0;i!=4;i++){//desseleccionar asos
 				desseleccionarPilaA(i);
 			}
-			//escriureTauler();
 			while(seleccionades!=2&&fiPartida()!=1&&reiniciar!=1){
 	 			x_click=0;y_click=0;
 				 start(&x_click,&y_click);
-				//moure(&baralla,cartes_pillades,&i_pillades,&posicio);
-			//printf("hoa");getch();
 				click(x_click,y_click);
 			}
 			
@@ -970,12 +826,7 @@ void main(){
 			reiniciar=0;
 			guanyat();
 			getch();
-			//printf("\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n            creador ---> Ton Llucià Senserrich ");getch();
+			printf("\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n            creador ---> Ton Llucià Senserrich ");getch();
 		}
 	}while(reiniciar==1);
 }
-//////////////////////////////////
-//-baixar una carta dels asos que es del mateix color
-//-al baixar una carta de les pillades no escriu el tauler
-//-pots seleccionar els les pillades com a 2a seleccio
-
