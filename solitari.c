@@ -74,8 +74,10 @@ void maximitzar_finestra();
 	Tbaralla pilaA[4];
 	Tmov selec[2];
 ///////////////////////////////////////////////////////////////////////////
-
-
+/** maximitzar_finestra
+ *
+ * serveix per maximitzar la finestra actual
+ */
 void maximitzar_finestra(void){
     keybd_event(VK_MENU,0x38,0,0);
     keybd_event(VK_SPACE,0x39,0,0);
@@ -84,7 +86,9 @@ void maximitzar_finestra(void){
     keybd_event(0x58,0x58,0,0);
 	keybd_event(0x58,0x58,KEYEVENTF_KEYUP,0);
 }
-
+/** inicialitzarTaules
+ * inicialitza les taules que es faran servir pel programa
+ */
 void inicialitzarTaules(){
 	int i_pal,i=1,i_nombre;
 	for(i_pal=0;i_pal!=4;i_pal++){
