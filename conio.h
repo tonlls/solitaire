@@ -1,20 +1,20 @@
-/* Implementaci髇 de conio segun especificaciones de Borland
+/* Implementaci贸n de conio segun especificaciones de Borland
  * para Mingw/Dev-C++.
  *
  * Por:
  * Salvador Pozo Coronado <salvador@conclase.net>
  * C++ con Clase: http://c.conclase.net
- * Versi髇 1.0 Abril de 2003.
- * Versi髇 1.1 Agosto de 2003 (fru <elfrucool@yahoo.com.mx>)
- * Se adapta el c骴igo a ANSI C (la versi髇 anterior contiene
- * muchos errores debido al uso de caracter韘ticas C++).
- * Versi髇 1.2 Abril de 2004.
- * Se corrige bug en funci髇 void _setcursortype(int cur_t);
- * que no funcionaba correctemente con la opci髇 _NOCURSOR
- * Versi髇 1.3 Agosto de 2004
- * Se usa el nombre libconio.a para facilitar el enlace est醫ico.
+ * Versi贸n 1.0 Abril de 2003.
+ * Versi贸n 1.1 Agosto de 2003 (fru <elfrucool@yahoo.com.mx>)
+ * Se adapta el c贸digo a ANSI C (la versi贸n anterior contiene
+ * muchos errores debido al uso de caracter铆sticas C++).
+ * Versi贸n 1.2 Abril de 2004.
+ * Se corrige bug en funci贸n void _setcursortype(int cur_t);
+ * que no funcionaba correctemente con la opci贸n _NOCURSOR
+ * Versi贸n 1.3 Agosto de 2004
+ * Se usa el nombre libconio.a para facilitar el enlace est谩tico.
  *
- * Para dominio p鷅lico sin ninguna garant韆.
+ * Para dominio p煤blico sin ninguna garant铆a.
  */
 
 #ifndef _CONIO_H_
@@ -78,7 +78,7 @@ enum text_modes {
 
 #define cscanf	scanf
 
-/* Funciones de conio seg鷑 Borland: */
+/* Funciones de conio seg煤n Borland: */
 char *cgets(char *str);
 void clreol(void);
 void clrscr(void);

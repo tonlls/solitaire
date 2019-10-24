@@ -1,12 +1,17 @@
-#include"mouse.h"
-#include"cards.h"
-#include<time.h>
-#include<stdio.h>
-#include<ncurses.h>
+
+#include "cards.h"
+#include <time.h>
+#include <stdio.h>
+#include <ncurses.h>
 #include <unistd.h>
 #include <stdlib.h>
 #include <locale.h>
 
+#if defined(_WIN32) || defined(__MSDOS__)
+	#include "mouse_win.h"
+#else
+	#include "mouse_linux.h"
+#endif
 
 typedef struct{
 	Tcard cards[31];
@@ -28,6 +33,7 @@ void moure();
 void moureCartaAsosPila(int pila_a,int pila);
 void pasarPillades();
 void moureCartaPilaPila(int pila1,int i1,int pila2);
+void moureCartaPilaAsos(int i_pila,int pila,int pila_a);
 void moureCartaPillarPila(int i_pila);
 int buscarCartaXPillar(Tcard carta);
 void misatgeError();
@@ -77,17 +83,17 @@ void init_screen();
 	Tcard cartes_pillades[3];
 	Tdeck pilaA[4];
 	Tmovement selec[2];
-	WINDOW* win;
 ///////////////////////////////////////////////////////////////////////////
 
 
 void init_screen(void){
-	//sleep(1);
-	//getch();
 	setlocale(LC_ALL, "");
-    win=initscr();
+	WINDOW* w=initscr();
 	noecho();
 	curs_set(FALSE);
+	start_color();
+	init_pair(1, COLOR_BLACK, COLOR_WHITE);
+	wbkgd(w, COLOR_PAIR(1));
 }
 
 void inicialitzarTaules(){
@@ -155,6 +161,7 @@ void escriureRecuadre(int i){
 		case 5:drawRectangle(51,13,7,8);break;
 		case 6:drawRectangle(61,13,7,8);break;
 	}
+	attron(COLOR_PAIR(1));
 	refresh();
 }
 void barrejarCartes(){
@@ -787,7 +794,7 @@ void moureCartaPilaPila(int pila1,int i1,int pila2){
 	escriurePila(pila2);
 }
 
-void moureCartaPilaAsos(i_pila,pila,pila_a){
+void moureCartaPilaAsos(int i_pila,int pila,int pila_a){
 	int i;
 	//printf("%d (%d)",i_pila,iPila[pila]);getch();
 	if((pilas[pila].cards[i_pila].number-1==pilaA[pila_a].cards[qtA[pila_a]].number&&pilas[pila].cards[i_pila].suit==pilaA[pila_a].cards[qtA[pila_a]].suit||pilas[pila].cards[i_pila].number==1)&&i_pila==iPila[pila]-1){
@@ -889,7 +896,7 @@ void desseleccionarPillades(){
 void guanyat(){
 	int i;
 	//system("MODE CON COLS=90 LINES=160");
-	textbackground(15);
+	textbackground(WHITE);
 	for(i=0;i!=6;i++){
 		clear();
 		//printf("%d(%d)",i,i%2);
@@ -925,18 +932,15 @@ void main(){
 	int x_click,y_click;
 	
 	init_screen();
-//	guanyat();getch();
-	//getch();
-	Tcard t;
-	t.color=10;
-	t.number=2;
-	t.scrambled=1;
-	t.selected=0;
-	t.suit=0;
-	t.uncovered=1;
-//	drawCard(t,10,10);
-	//sleep(5);
+	textcolor(BLACK);
+	escriureRecuadre(1);
+	textcolor_off();
+	textcolor(RED);
+	escriureRecuadre(2);
+	textcolor_off();
+	sleep(5);
 	do{
+		break;
 		qtA[0]=0;qtA[1]=0;qtA[2]=0;qtA[3]=0;
 		iPila[0]=0;iPila[1]=0;iPila[2]=0;iPila[3]=0;iPila[4]=0;iPila[5]=0;iPila[6]=0;
 		i_pillades=0;iPillar=-1;qt_pillades=24;seleccionades=0;pillarAct=2;pillarEnrrere=0;reiniciar=0;
@@ -944,7 +948,7 @@ void main(){
 		
 		reiniciar=0;
 		srand(time(NULL));
-		textbackground(15);
+		textbackground(WHITE);
 		clear();
 		Tcard cards[MAX_CARTES];
 		Tcard cartes_barrejades[MAX_CARTES];

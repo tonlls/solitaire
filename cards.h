@@ -6,10 +6,16 @@
 #if defined(_WIN32) || defined(__MSDOS__)
 	#define LINUX 0
 	#include "conio.c"
-	#include <windows.h>  
+	#include <windows.h> 
+	#define WHITE 15
+	#define BLACK 0
+	#define RED 12
 #else
 	#define LINUX 1
 	#include <ncurses.h>
+	#define WHITE COLOR_WHITE
+	#define BLACK COLOR_BLACK
+	#define RED COLOR_RED
 #endif
 
 #define SPADE "♠"
@@ -27,9 +33,18 @@ typedef struct{
 }Tcard;
 
 
-void textcolor(int x){}
-void textbackground(int x){}
-void start(int *x,int *y){}
+void textbackground(int x){
+
+}
+void textcolor(int x){
+	init_pair(1, x, COLOR_WHITE);
+	attron(COLOR_PAIR(1));
+}
+void textcolor_off(){
+	attroff(COLOR_PAIR(1));
+	reset_color_pairs();
+	
+}
 void hgotoxy(int x,int y){
 	move(y,x);
 }
@@ -110,10 +125,10 @@ void drawCard(Tcard carta,int x,int y){
 	clearSpace(x,y,x+8,y+7);
 	if(carta.uncovered==1){
 		switch(carta.suit){
-			case 0:suit=HEART;color=12;break;//cors-vermell
-			case 1:suit=CLUB;color=0;break;//trebols-negre
-			case 2:suit=DIAMOND;color=12;break;//rombes-vermell
-			case 3:suit=SPADE;color=0;break;//picas-negre
+			case 0:suit=HEART;color=RED;break;//cors-vermell
+			case 1:suit=CLUB;color=BLACK;break;//trebols-negre
+			case 2:suit=DIAMOND;color=RED;break;//rombes-vermell
+			case 3:suit=SPADE;color=BLACK;break;//picas-negre
 		}
 		textcolor(color);
 		hgotoxy(x+1,y+1);
@@ -154,12 +169,17 @@ void drawCard(Tcard carta,int x,int y){
 		//}	
 	}
 	if(carta.selected==1){
-		textcolor(12);
+		textcolor(RED);
 	}
 	else{
-		textcolor(0);
+		textcolor(BLACK);
 	}
 	drawRectangle(x,y,5,6);
+	//textcolor(BLACK);
+	//attroff(COLOR_PAIR(0));
+	endwin();
+	refresh();
+	//attroff(COLOR_PAIR(1));
 	//textbackground(5);
 	//clearSpace(x,y,x+8,y+7);
 }
