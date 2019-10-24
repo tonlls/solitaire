@@ -1,6 +1,21 @@
 #include <stdio.h>  
-#include <windows.h>  
-#include "conio.c"
+#include <string.h>
+#include <locale.h>
+
+
+#if defined(_WIN32) || defined(__MSDOS__)
+	#define LINUX 0
+	#include "conio.c"
+	#include <windows.h>  
+#else
+	#define LINUX 1
+	#include <ncurses.h>
+#endif
+
+#define SPADE "♠"
+#define CLUB "♣"
+#define HEART "♥"
+#define DIAMOND "♦"
 
 typedef struct{
 	int number;
@@ -12,18 +27,15 @@ typedef struct{
 }Tcard;
 
 
-
-void hgotoxy(int x,int y){  
-    HANDLE hcon;  
-    hcon = GetStdHandle(STD_OUTPUT_HANDLE);  
-	COORD dwPos;  
-    dwPos.X = x;  
-    dwPos.Y= y;  
-    SetConsoleCursorPosition(hcon,dwPos);
+void textcolor(int x){}
+void textbackground(int x){}
+void start(int *x,int *y){}
+void hgotoxy(int x,int y){
+	move(y,x);
 }
 
 void demon(int x,int y,int i){
-	textcolor(12);
+	/*textcolor(12);
 	hgotoxy(x,y);
 	printf("             ,        ,");hgotoxy(x,y+1);
 	printf("            /(        )%c",92);hgotoxy(x,y+2);
@@ -51,7 +63,8 @@ void demon(int x,int y,int i){
 	printf("          ______( (_  / %c______",92);hgotoxy(x,y+17);
 	printf("        ,'  ,-----'   |        %c",92);hgotoxy(x,y+18);
 	printf("        `--{__________)        %c/",92);hgotoxy(x,y+19);
-	//getch();
+	//getch();*/
+	
 }
 
 void clearSpace(int x1,int y1,int x2,int y2){
@@ -60,7 +73,7 @@ void clearSpace(int x1,int y1,int x2,int y2){
 	for(y=y1;y!=y2;y++){
 		for(x=x1;x!=x2;x++){
 			hgotoxy(x,y);
-			printf(" ");
+			printw(" ");
 		}
 	}
 	hgotoxy(1,1);
@@ -68,51 +81,53 @@ void clearSpace(int x1,int y1,int x2,int y2){
 
 void drawRectangle(int x,int y,int altura,int amplada){
 	int i,ix;
+
 	hgotoxy(x,y);
 	//textcolor(8);
-	printf("%c",218);
+	printw("┌");
 	for(i=x;i!=x+amplada;i++){
-			printf("%c",196);
+			printw("─");
 	}
-	printf("%c",191);
+	printw("┐");
 	for(i=y;i!=y+altura;i++){
 		ix=x+amplada+1;
 		hgotoxy(x,i+1);
-		printf("%c",179);
+		printw("│");
 		hgotoxy(ix,i+1);
-		printf("%c",179);
+		printw("│");
 	}
 	hgotoxy(x,y+altura+1);
-	printf("%c",192);
-		for(i=x;i!=x+amplada;i++){
-				printf("%c",196);
-		}
-	printf("%c",217);
+	printw("└");
+	for(i=x;i!=x+amplada;i++){
+			printw("─");
+	}
+	printw("┘");
 }
 
 void drawCard(Tcard carta,int x,int y){
-	int suit,color;
+	int color;
+	char* suit;
 	clearSpace(x,y,x+8,y+7);
 	if(carta.uncovered==1){
 		switch(carta.suit){
-			case 0:suit=3;color=12;break;//cors-vermell
-			case 1:suit=5;color=0;break;//trebols-negre
-			case 2:suit=4;color=12;break;//rombes-vermell
-			case 3:suit=6;color=0;break;//picas-negre
+			case 0:suit=HEART;color=12;break;//cors-vermell
+			case 1:suit=CLUB;color=0;break;//trebols-negre
+			case 2:suit=DIAMOND;color=12;break;//rombes-vermell
+			case 3:suit=SPADE;color=0;break;//picas-negre
 		}
 		textcolor(color);
 		hgotoxy(x+1,y+1);
 		switch(carta.number){
-			case 1:printf("A    %c",suit);break;
-			case 11:printf("J    %c",suit);break;
-			case 12:printf("Q    %c",suit);break;
-			case 13:printf("K    %c",suit);break;
+			case 1:printw("A    %s",suit);break;
+			case 11:printw("J    %s",suit);break;
+			case 12:printw("Q    %s",suit);break;
+			case 13:printw("K    %s",suit);break;
 			default:
 				if(carta.number==10){
-					printf("%d   %c",carta.number,suit);
+					printw("%d   %s",carta.number,suit);
 				}
 				else{
-					printf("%d    %c",carta.number,suit);
+					printw("%d    %s",carta.number,suit);
 				}
 			break;
 		}
@@ -123,16 +138,16 @@ void drawCard(Tcard carta,int x,int y){
 		else{*/
 			hgotoxy(x+1,y+5);
 			switch(carta.number){
-				case 1:printf("%c    A",suit);break;
-				case 11:printf("%c    J",suit);break;
-				case 12:printf("%c    Q",suit);break;
-				case 13:printf("%c    K",suit);break;
+				case 1:printw("%s    A",suit);break;
+				case 11:printw("%s    J",suit);break;
+				case 12:printw("%s    Q",suit);break;
+				case 13:printw("%s    K",suit);break;
 				default:
 					if(carta.number==10){
-						printf("%c   %d",suit,carta.number);
+						printw("%s   %d",suit,carta.number);
 					}
 					else{
-						printf("%c    %d",suit,carta.number);
+						printw("%s    %d",suit,carta.number);
 					}
 				break;
 			}

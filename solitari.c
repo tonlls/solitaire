@@ -2,6 +2,10 @@
 #include"cards.h"
 #include<time.h>
 #include<stdio.h>
+#include<ncurses.h>
+#include <unistd.h>
+#include <stdlib.h>
+#include <locale.h>
 
 
 typedef struct{
@@ -45,7 +49,7 @@ void barrejarCartes();
 void escriureRecuadre(int i);
 void dibuixarTauler();
 void inicialitzarTaules();
-void maximitzar_finestra();
+void init_screen();
 ////////////////////////////////////////////////////////////////////
 ///////CONSTANTS LLOCS////////
 #define PILLAR 100
@@ -73,18 +77,17 @@ void maximitzar_finestra();
 	Tcard cartes_pillades[3];
 	Tdeck pilaA[4];
 	Tmovement selec[2];
+	WINDOW* win;
 ///////////////////////////////////////////////////////////////////////////
 
 
-void maximitzar_finestra(void){
+void init_screen(void){
 	//sleep(1);
 	//getch();
-    keybd_event(VK_MENU,0x38,0,0);
-    keybd_event(VK_SPACE,0x39,0,0);
-    keybd_event(VK_MENU,0x38,KEYEVENTF_KEYUP,0);
-    keybd_event(VK_SPACE,0x39,KEYEVENTF_KEYUP,0);
-    keybd_event(0x58,0x58,0,0);
-	keybd_event(0x58,0x58,KEYEVENTF_KEYUP,0);
+	setlocale(LC_ALL, "");
+    win=initscr();
+	noecho();
+	curs_set(FALSE);
 }
 
 void inicialitzarTaules(){
@@ -139,7 +142,7 @@ void dibuixarTauler(){
 	drawRectangle(31,13,7,8);
 	drawRectangle(41,13,7,8);
 	drawRectangle(51,13,7,8);
-	drawRectangle(61,13,7,8);	
+	drawRectangle(61,13,7,8);
 }
 void escriureRecuadre(int i){
 	textcolor(8);
@@ -152,6 +155,7 @@ void escriureRecuadre(int i){
 		case 5:drawRectangle(51,13,7,8);break;
 		case 6:drawRectangle(61,13,7,8);break;
 	}
+	refresh();
 }
 void barrejarCartes(){
 	int i,i2,u;
@@ -231,6 +235,7 @@ void pillarCartes(/*Tdeck *baralla,Tcard cartes_pillades[3],int *i_pillades*/){
 		resetejarPillades();
 	}
 	//printf("%d",baralla.cards[i_pillades-1].number);
+	refresh();
 }
 
 void pasarPillades(/*Tcard cartes_pillades[],Tdeck baralla*/){
@@ -254,6 +259,7 @@ void pasarPillades(/*Tcard cartes_pillades[],Tdeck baralla*/){
 		cartes_pillades[i-1]=baralla.cards[t];
 	}
 	//escriurePillades();
+	refresh();
 }
 
 void iniciarTauler(/*Tdeck pilas[]*/){
@@ -270,6 +276,7 @@ void iniciarTauler(/*Tdeck pilas[]*/){
 		y=14;
 		x=x+10;
 	}
+	refresh();
 }
 
 void escriurePillades(){
@@ -285,6 +292,7 @@ void escriurePillades(){
 			//cResta++;
 		}
 	}
+	refresh();
 }
 
 void escriureAsos(){
@@ -297,6 +305,7 @@ void escriureAsos(){
 		}
 		x=x+10;
 	}
+	refresh();
 }
 void escriurePila(int i){
 	int x,y=14,i2;
@@ -307,6 +316,7 @@ void escriurePila(int i){
 		drawCard(pilas[i].cards[i2],x,y);
 		y=y+2;
 	}
+	refresh();
 }
 void escriurePiles(){
 	int x=-8,y=14,i,i2;
@@ -322,11 +332,13 @@ void escriurePiles(){
 		
 	}
 	//printf("%d-%d",x,y);getch();
+	refresh();
 }
 
 void escriureTauler(){
 	int x=2,y=14,i,i2;
-	system("cls");
+	//system("cls");
+	clear();
 	dibuixarTauler();
 	//escriure les piles
 	escriurePiles();
@@ -348,7 +360,7 @@ void escriureTauler(){
 		}
 	}*/
 	//escriure pilas de A
-	getch();
+	//getch();
 	escriureAsos();
 	/*x=2;y=2;
 	for(i=0;i!=4;i++){
@@ -357,6 +369,7 @@ void escriureTauler(){
 		}
 		x=x+10;
 	}*/
+	refresh();
 }
 
 
@@ -663,8 +676,8 @@ int buscarCartaXPillar(Tcard carta){
 }
 
 void misatgeError(){
-	system("cls"); 
-	printf("S'ha produit un error contacti amb el creador(Ton Llucià Senserrich)");
+	//system("cls"); 
+	printf("S'ha produit un error contacti amb el creador(Ton Lluciï¿½ Senserrich)");
 }
 
 void moureCartaPillarPila(int i_pila){
@@ -875,10 +888,10 @@ void desseleccionarPillades(){
 
 void guanyat(){
 	int i;
-	system("MODE CON COLS=90 LINES=160");
+	//system("MODE CON COLS=90 LINES=160");
 	textbackground(15);
 	for(i=0;i!=6;i++){
-		system("cls");
+		clear();
 		//printf("%d(%d)",i,i%2);
 		demon(50,20,i);
 		if((i%2)!=0)hgotoxy(33,32);else hgotoxy(37,32);
@@ -889,43 +902,40 @@ void guanyat(){
 	for(i=33;i!=0;i--){
 		hgotoxy(i,32);
 		textcolor((rand()%14)+1);
-		printf("Nanu ets un CRACK");
+		printw("Nanu ets un CRACK");
 		sleep(1);
 		hgotoxy(i,32);
-		printf("                 ");
+		printw("                 ");
 		i--;i--;
 	}
 	for(i=1;i!=34;i++){
 		hgotoxy(i-3,32);
-		printf("                 ");
+		printw("                 ");
 		hgotoxy(i,32);
 		textcolor((rand()%14)+1);
-		printf("Nanu ets un CRACK");
+		printw("Nanu ets un CRACK");
 		sleep(1);
 		i++;i++;
 	}
+	refresh();
 }
 
 void main(){
 	int i,i2;
 	int x_click,y_click;
 	
-	HANDLE hStdin; 
-	DWORD fdwMode;	
-	
-	hStdin = GetStdHandle(STD_INPUT_HANDLE); 
-	fdwMode =  ENABLE_MOUSE_INPUT; 
-	SetConsoleMode(hStdin, fdwMode);
-	
-	system("MODE CON COLS=80 LINES=160");//getch();
-	gotoxy(1,1);
-	SetConsoleTitleA("SOLITARI");
-	_setcursortype(_NOCURSOR);
-	
-	maximitzar_finestra();
+	init_screen();
 //	guanyat();getch();
 	//getch();
-	
+	Tcard t;
+	t.color=10;
+	t.number=2;
+	t.scrambled=1;
+	t.selected=0;
+	t.suit=0;
+	t.uncovered=1;
+//	drawCard(t,10,10);
+	//sleep(5);
 	do{
 		qtA[0]=0;qtA[1]=0;qtA[2]=0;qtA[3]=0;
 		iPila[0]=0;iPila[1]=0;iPila[2]=0;iPila[3]=0;iPila[4]=0;iPila[5]=0;iPila[6]=0;
@@ -935,7 +945,7 @@ void main(){
 		reiniciar=0;
 		srand(time(NULL));
 		textbackground(15);
-		system("cls");
+		clear();
 		Tcard cards[MAX_CARTES];
 		Tcard cartes_barrejades[MAX_CARTES];
 
@@ -944,6 +954,7 @@ void main(){
 		barrejarCartes();
 		dibuixarTauler();
 		iniciarTauler(pilas);
+		refresh();
 		while(fiPartida()==0&&reiniciar!=1){
 			seleccionades=0;
 			selec[0].place=BUIT;
@@ -972,13 +983,14 @@ void main(){
 			}
 		}
 		if(fiPartida()==1){
-			system("cls");
+			clear();
 			reiniciar=0;
 			guanyat();
 			getch();
-			//printf("\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n            creador ---> Ton Llucià Senserrich ");getch();
+			//printf("\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n            creador ---> Ton Lluciï¿½ Senserrich ");getch();
 		}
 	}while(reiniciar==1);
+	endwin();
 }
 //////////////////////////////////
 //-baixar una carta dels asos que es del mateix color
