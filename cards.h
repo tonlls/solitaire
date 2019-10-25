@@ -7,15 +7,10 @@
 	#define LINUX 0
 	#include "conio.c"
 	#include <windows.h> 
-	#define WHITE 15
-	#define BLACK 0
-	#define RED 12
 #else
 	#define LINUX 1
 	#include <ncurses.h>
-	#define WHITE COLOR_WHITE
-	#define BLACK COLOR_BLACK
-	#define RED COLOR_RED
+	#include "graphics_linux.h"
 #endif
 
 #define SPADE "♠"
@@ -33,21 +28,7 @@ typedef struct{
 }Tcard;
 
 
-void textbackground(int x){
 
-}
-void textcolor(int x){
-	init_pair(1, x, COLOR_WHITE);
-	attron(COLOR_PAIR(1));
-}
-void textcolor_off(){
-	attroff(COLOR_PAIR(1));
-	reset_color_pairs();
-	
-}
-void hgotoxy(int x,int y){
-	move(y,x);
-}
 
 void demon(int x,int y,int i){
 	/*textcolor(12);
@@ -88,7 +69,7 @@ void clearSpace(int x1,int y1,int x2,int y2){
 	for(y=y1;y!=y2;y++){
 		for(x=x1;x!=x2;x++){
 			hgotoxy(x,y);
-			printw(" ");
+			print(" ");
 		}
 	}
 	hgotoxy(1,1);
@@ -99,50 +80,50 @@ void drawRectangle(int x,int y,int altura,int amplada){
 
 	hgotoxy(x,y);
 	//textcolor(8);
-	printw("┌");
+	print("┌");
 	for(i=x;i!=x+amplada;i++){
-			printw("─");
+			print("─");
 	}
-	printw("┐");
+	print("┐");
 	for(i=y;i!=y+altura;i++){
 		ix=x+amplada+1;
 		hgotoxy(x,i+1);
-		printw("│");
+		print("│");
 		hgotoxy(ix,i+1);
-		printw("│");
+		print("│");
 	}
 	hgotoxy(x,y+altura+1);
-	printw("└");
+	print("└");
 	for(i=x;i!=x+amplada;i++){
-			printw("─");
+			print("─");
 	}
-	printw("┘");
+	print("┘");
 }
 
 void drawCard(Tcard carta,int x,int y){
-	int color;
+	int mcolor;
 	char* suit;
 	clearSpace(x,y,x+8,y+7);
 	if(carta.uncovered==1){
 		switch(carta.suit){
-			case 0:suit=HEART;color=RED;break;//cors-vermell
-			case 1:suit=CLUB;color=BLACK;break;//trebols-negre
-			case 2:suit=DIAMOND;color=RED;break;//rombes-vermell
-			case 3:suit=SPADE;color=BLACK;break;//picas-negre
+			case 0:suit=HEART;mcolor=RED_PAIR;break;//cors-vermell
+			case 1:suit=CLUB;mcolor=BLACK_PAIR;break;//trebols-negre
+			case 2:suit=DIAMOND;mcolor=RED_PAIR;break;//rombes-vermell
+			case 3:suit=SPADE;mcolor=BLACK_PAIR;break;//picas-negre
 		}
-		textcolor(color);
+		color(mcolor);
 		hgotoxy(x+1,y+1);
 		switch(carta.number){
-			case 1:printw("A    %s",suit);break;
-			case 11:printw("J    %s",suit);break;
-			case 12:printw("Q    %s",suit);break;
-			case 13:printw("K    %s",suit);break;
+			case 1:print("A    %s",suit);break;
+			case 11:print("J    %s",suit);break;
+			case 12:print("Q    %s",suit);break;
+			case 13:print("K    %s",suit);break;
 			default:
 				if(carta.number==10){
-					printw("%d   %s",carta.number,suit);
+					print("%d   %s",carta.number,suit);
 				}
 				else{
-					printw("%d    %s",carta.number,suit);
+					print("%d    %s",carta.number,suit);
 				}
 			break;
 		}
@@ -153,35 +134,29 @@ void drawCard(Tcard carta,int x,int y){
 		else{*/
 			hgotoxy(x+1,y+5);
 			switch(carta.number){
-				case 1:printw("%s    A",suit);break;
-				case 11:printw("%s    J",suit);break;
-				case 12:printw("%s    Q",suit);break;
-				case 13:printw("%s    K",suit);break;
+				case 1:print("%s    A",suit);break;
+				case 11:print("%s    J",suit);break;
+				case 12:print("%s    Q",suit);break;
+				case 13:print("%s    K",suit);break;
 				default:
 					if(carta.number==10){
-						printw("%s   %d",suit,carta.number);
+						print("%s   %d",suit,carta.number);
 					}
 					else{
-						printw("%s    %d",suit,carta.number);
+						print("%s    %d",suit,carta.number);
 					}
 				break;
 			}
 		//}	
 	}
 	if(carta.selected==1){
-		textcolor(RED);
+		color(RED_PAIR);
 	}
 	else{
-		textcolor(BLACK);
+		color(BLACK_PAIR);
 	}
 	drawRectangle(x,y,5,6);
-	//textcolor(BLACK);
-	//attroff(COLOR_PAIR(0));
-	endwin();
-	refresh();
-	//attroff(COLOR_PAIR(1));
-	//textbackground(5);
-	//clearSpace(x,y,x+8,y+7);
+	color(BLACK_PAIR);
 }
 
 

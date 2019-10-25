@@ -9,8 +9,10 @@
 
 #if defined(_WIN32) || defined(__MSDOS__)
 	#include "mouse_win.h"
+	#include "graphics_win.h"
 #else
 	#include "mouse_linux.h"
+	//#include "graphics_linux.h"
 #endif
 
 typedef struct{
@@ -86,16 +88,6 @@ void init_screen();
 ///////////////////////////////////////////////////////////////////////////
 
 
-void init_screen(void){
-	setlocale(LC_ALL, "");
-	WINDOW* w=initscr();
-	noecho();
-	curs_set(FALSE);
-	start_color();
-	init_pair(1, COLOR_BLACK, COLOR_WHITE);
-	wbkgd(w, COLOR_PAIR(1));
-}
-
 void inicialitzarTaules(){
 	int i_pal,i=1,i_nombre;
 	//while(i<MAX_CARTES){
@@ -131,7 +123,7 @@ void inicialitzarTaules(){
  //}
 }
 void dibuixarTauler(){
-	textcolor(8);
+	color(BLACK_PAIR);
 	drawRectangle(1,1,7,8);
 	drawRectangle(11,1,7,8);
 	drawRectangle(21,1,7,8);
@@ -151,7 +143,7 @@ void dibuixarTauler(){
 	drawRectangle(61,13,7,8);
 }
 void escriureRecuadre(int i){
-	textcolor(8);
+	color(BLACK_PAIR);
 	switch(i){
 		case 0:drawRectangle(1,13,7,8);break;
 		case 1:drawRectangle(11,13,7,8);break;
@@ -896,7 +888,7 @@ void desseleccionarPillades(){
 void guanyat(){
 	int i;
 	//system("MODE CON COLS=90 LINES=160");
-	textbackground(WHITE);
+	//textbackground(WHITE);
 	for(i=0;i!=6;i++){
 		clear();
 		//printf("%d(%d)",i,i%2);
@@ -908,19 +900,19 @@ void guanyat(){
 	}
 	for(i=33;i!=0;i--){
 		hgotoxy(i,32);
-		textcolor((rand()%14)+1);
-		printw("Nanu ets un CRACK");
+		//textcolor((rand()%14)+1);
+		print("Nanu ets un CRACK");
 		sleep(1);
 		hgotoxy(i,32);
-		printw("                 ");
+		print("                 ");
 		i--;i--;
 	}
 	for(i=1;i!=34;i++){
 		hgotoxy(i-3,32);
-		printw("                 ");
+		print("                 ");
 		hgotoxy(i,32);
-		textcolor((rand()%14)+1);
-		printw("Nanu ets un CRACK");
+		//textcolor((rand()%14)+1);
+		print("Nanu ets un CRACK");
 		sleep(1);
 		i++;i++;
 	}
@@ -932,15 +924,8 @@ void main(){
 	int x_click,y_click;
 	
 	init_screen();
-	textcolor(BLACK);
-	escriureRecuadre(1);
-	textcolor_off();
-	textcolor(RED);
-	escriureRecuadre(2);
-	textcolor_off();
-	sleep(5);
+	
 	do{
-		break;
 		qtA[0]=0;qtA[1]=0;qtA[2]=0;qtA[3]=0;
 		iPila[0]=0;iPila[1]=0;iPila[2]=0;iPila[3]=0;iPila[4]=0;iPila[5]=0;iPila[6]=0;
 		i_pillades=0;iPillar=-1;qt_pillades=24;seleccionades=0;pillarAct=2;pillarEnrrere=0;reiniciar=0;
@@ -948,7 +933,7 @@ void main(){
 		
 		reiniciar=0;
 		srand(time(NULL));
-		textbackground(WHITE);
+		//textbackground(WHITE);
 		clear();
 		Tcard cards[MAX_CARTES];
 		Tcard cartes_barrejades[MAX_CARTES];
