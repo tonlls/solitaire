@@ -3,6 +3,13 @@
 
 #define BLACK_PAIR 1
 #define RED_PAIR 2
+void mlog(const char *str){
+	FILE *f;
+	f=fopen("log.log","a+");
+	fwrite(str,strlen(str)*sizeof(char),1,f);
+	fwrite("\n",strlen("\n")*sizeof(char),1,f);
+	fclose(f);
+}
 int print (const char *format, ...){
 	va_list arg;
 	int done; 
@@ -18,13 +25,13 @@ void init_colors(void){
 }
 void init_screen(void){
 	setlocale(LC_ALL, "");
-	resize_term(10	,1);
+	//resize_term(10	,1);
 	
 	WINDOW* w=initscr();
 	start_color();
 	init_colors();
-	noecho();
-	curs_set(FALSE);
+	//noecho();
+	//curs_set(FALSE);
 	wbkgd(w, COLOR_PAIR(BLACK_PAIR));
 }
 
