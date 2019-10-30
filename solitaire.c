@@ -93,7 +93,7 @@ void inicialitzarTaules(){
 	//while(i<MAX_CARTES){
 		for(i_pal=0;i_pal!=4;i_pal++){
 			i_nombre=1;
-			while(i_nombre!=14){
+			while(i_nombre<14){
 				cards[i].number=i_nombre;
 				cards[i].suit=i_pal;
 				cards[i].uncovered=0;
@@ -132,7 +132,8 @@ void dibuixarTauler(){
 	drawRectangle(70,1,7,8);
 	
 	drawRectangle(70,10,1,1);
-	hgotoxy(71,11);printf("R");
+	hgotoxy(71,11);
+	print("R");
 	
 	drawRectangle(1,13,7,8);
 	drawRectangle(11,13,7,8);
