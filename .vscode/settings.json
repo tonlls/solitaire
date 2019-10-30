@@ -4,6 +4,10 @@
 		"string_view": "cpp",
 		"mouse_linux.h": "c",
 		"*.tcc": "cpp",
-		"cstdarg": "cpp"
+		"cstdarg": "cpp",
+		"graphics.c": "cpp",
+		"graphics.h": "c",
+		"model.h": "c",
+		"graphics_win.h": "c"
 	}
 }

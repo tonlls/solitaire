@@ -1,18 +1,29 @@
-#include <stdio.h>
+#include <ncurses.h>
+#include <locale.h>
 
-#define BLACK_PAIR 0
-#define RED_PAIR 12
+#define BLACK_PAIR 1
+#define RED_PAIR 2
 
+void end_screen(){
+	endwin();
+}
 int print (const char *format, ...){
 	va_list arg;
 	int done; 
+	
 	va_start (arg, format);
-	done = vfprintf (stdout,format, arg);
+	done = vw_printw(stdscr,format, arg);
 	va_end (arg);
 	return done;
 }
+void init_colors(void){
+	init_pair(BLACK_PAIR, COLOR_BLACK, COLOR_WHITE);
+	init_pair(RED_PAIR, COLOR_RED, COLOR_WHITE);
+}
 void init_screen(void){
 	setlocale(LC_ALL, "");
+	resize_term(10	,1);
+	
 	WINDOW* w=initscr();
 	start_color();
 	init_colors();
@@ -25,13 +36,8 @@ void text_background(int color){
 
 }
 void color(int color){
-	textcolor(color);
+	attron(COLOR_PAIR(color));
 }
 void hgotoxy(int x,int y){
-	HANDLE hcon;  
-	hcon = GetStdHandle(STD_OUTPUT_HANDLE);  
-	COORD dwPos;
-	dwPos.X = x;
-	dwPos.Y= y;  
-	SetConsoleCursorPosition(hcon,dwPos);
+	move(y,x);
 }
