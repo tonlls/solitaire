@@ -5,7 +5,7 @@
 #include <stdio.h>
 #include <windows.h>
 #include <locale.h>
-#include "./graphics_win.h"
+#include "./graphics.h"
 
 int print (const char *format, ...){
 	va_list arg;
@@ -38,8 +38,19 @@ void hgotoxy(int x,int y){
 	HANDLE hcon;  
 	hcon = GetStdHandle(STD_OUTPUT_HANDLE);  
 	COORD dwPos;
-	dwPos.X = x;
-	dwPos.Y= y;  
-	SetConsoleCursorPosition(hcon,dwPos);
+	PCONSOLE_CURSOR_INFO ci;
+	GetConsoleCursorInfo(hcon,)
+}
+int get_x(){
+	CONSOLE_SCREEN_BUFFER_INFO SBInfo;
+	HANDLE hcon=GetStdHandle(STD_OUTPUT_HANDLE);
+	GetConsoleScreenBufferInfo(hcon, &SBInfo);
+	return SBInfo.dwCursorPosition.X;
+}
+int get_y(){
+	CONSOLE_SCREEN_BUFFER_INFO SBInfo;
+	HANDLE hcon=GetStdHandle(STD_OUTPUT_HANDLE);
+	GetConsoleScreenBufferInfo(hcon, &SBInfo);
+	return SBInfo.dwCursorPosition.Y;
 }
 #endif

@@ -1,0 +1,8 @@
+{
+    "files.associations": {
+        "graphics.h": "c",
+        "stdarg.h": "c",
+        "output.h": "c",
+        "model.h": "c"
+    }
+}

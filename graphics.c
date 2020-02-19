@@ -3,6 +3,7 @@
 #include "graphics.h"
 #include <string.h>
 
+
 void draw_horizontal_line(int x,int y,int length){
 	hgotoxy(x,y);
 	for(int i=0;i<length;i++){

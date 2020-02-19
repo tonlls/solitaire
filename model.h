@@ -39,6 +39,11 @@ typedef struct T_card{
 	bool scrambled;
 }t_card;
 
+typedef struct T_deck{
+	t_card *cards[MAX_CARDS];
+	int length;
+}t_deck;
+
 typedef struct T_stack{
 	int x0;
 	int x1;
@@ -54,24 +59,11 @@ typedef struct T_stack{
 }t_stack;
 
 typedef struct T_game{
-	t_stack aces_stacks[3];
-	t_stack game_stacks[6];
+	t_stack aces_stacks[ACE_STACKS];
+	t_stack game_stacks[GAME_STACKS];
+	t_deck main_deck;
 }t_game;
 
-//#include "model.c"
-
-
-bool has_next(const t_card*);
-
-void reset_cards_xy(t_stack*);
-t_card* get_card(t_stack,int);
-int move_card(t_stack*,t_card*);
-int add_card_ref(t_stack*,t_card*);
-int add_card(t_stack*,t_card);
-t_stack* search_stack(t_stack[],int,int,int);
-t_card* search_card(const t_stack,const int,const int);
-void init_stack(t_stack*,int,int,int,bool,bool);
-t_card* build_deck();
-void test();
-
+void init_main_deck(t_deck*);
+void shuffle_deck(t_deck*);
 #endif

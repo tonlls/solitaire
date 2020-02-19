@@ -1,11 +1,13 @@
 #include "graphics.h"
 #include "model.h"
 #include "output.h"
+#include <stdio.h>
 void main(){
 
 	//test();
 	init_screen();
-	t_card c;
+	draw_board();
+	/*t_card c;
 	t_stack s,ss;
 	c.color=RED_PAIR;
 	c.number="K";
@@ -21,6 +23,8 @@ void main(){
 	add_card(&s,c);
 	draw_card(c);
 	draw_stack(&s);
+	getch();*/
 	getch();
+	pause();
 	end_screen();
 }

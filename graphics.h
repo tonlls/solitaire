@@ -3,21 +3,21 @@
 #include <stdarg.h>
 
 #if defined(_WIN32) || defined(__MSDOS__)
-	#include "windows/graphics_win.h"
+	#include "windows/graphics.h"
 #else
-	#include "linux/graphics_linux.h"
+	#include "linux/graphics.h"
 #endif
 
 void init_screen();
 void end_screen();
 
 int print(const char*,...);
-void hgotoxy(int,int);
+void hgotoxy(int x,int y);
 void color(int);
 
-void draw_square(int,int,int,int);
-void draw_horizontal_line(int,int,int);
-void draw_vertical_line(int,int,int);
-void clear_space(int,int,int,int);
+void draw_square(int x,int y,int h,int w);
+void draw_horizontal_line(int x,int y,int len);
+void draw_vertical_line(int x,int y,int heigth);
+void clear_space(int x1,int y1,int x2,int y2);
 
 #endif

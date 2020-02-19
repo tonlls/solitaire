@@ -3,12 +3,12 @@
 
 #include <ncurses.h>
 #include <locale.h>
-#include "./graphics_linux.h"
+#include "./graphics.h"
 
 void end_screen(){
 	endwin();
 }
-int print (const char *format, ...){
+int print(const char *format, ...){
 	va_list arg;
 	int done; 
 	

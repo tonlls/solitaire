@@ -3,7 +3,6 @@
 
 #include <string.h>
 #include "output.h"
-#include "linux/graphics_linux.h"
 #include "graphics.h"
 void draw_card(const t_card card){
 	int x=card.x;
@@ -25,7 +24,7 @@ void draw_card(const t_card card){
 	else
 		color(BLACK_PAIR);
 	draw_square(card.x,card.y,CARD_HEIGHT,CARD_WIDTH);
-	color(BLACK_PAIR);
+	color(BLACK_PAIR); 
 }
 
 void draw_stack(const t_stack *stack){
@@ -41,5 +40,28 @@ void draw_stack(const t_stack *stack){
 		}
 	}	
 }
+void draw_board(){
+	//Aces
+	draw_square(1,1,CARD_HEIGHT+2,CARD_WIDTH+2);
+	draw_square(11,1,CARD_HEIGHT+2,CARD_WIDTH+2);
+	draw_square(21,1,CARD_HEIGHT+2,CARD_WIDTH+2);
+	draw_square(31,1,CARD_HEIGHT+2,CARD_WIDTH+2);
+	
+	//Game
+	draw_square(1,12,CARD_HEIGHT+2,CARD_WIDTH+2);
+	draw_square(11,12,CARD_HEIGHT+2,CARD_WIDTH+2);
+	draw_square(21,12,CARD_HEIGHT+2,CARD_WIDTH+2);
+	draw_square(31,12,CARD_HEIGHT+2,CARD_WIDTH+2);
+	draw_square(41,12,CARD_HEIGHT+2,CARD_WIDTH+2);
+	draw_square(51,12,CARD_HEIGHT+2,CARD_WIDTH+2);
+	draw_square(61,12,CARD_HEIGHT+2,CARD_WIDTH+2);
+	
+	//Deck
+	draw_square(71,1,CARD_HEIGHT+2,CARD_WIDTH+2);
 
+	//reset
+	draw_square(82,4,3,3);
+	hgotoxy(83,5);
+	print("R");
+}
 #endif
